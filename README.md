@@ -1,2 +1,4 @@
 # NoMoreAlcohol
-version control for my unity project
+A 2D platform game that has turn based combats.
+
+
