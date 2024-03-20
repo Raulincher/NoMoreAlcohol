@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Button
   layers:
   - Default
   - TransparentFX
@@ -11,8 +12,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - walls
+  - furniture
   - 
   - 
   - 
@@ -41,6 +42,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UI
+  - name: walls, floor
     uniqueID: 37439003
+    locked: 0
+  - name: NPCS
+    uniqueID: 2445953087
+    locked: 0
+  - name: furniture, enviroment
+    uniqueID: 1279520275
+    locked: 0
+  - name: Important things
+    uniqueID: 638784401
     locked: 0
