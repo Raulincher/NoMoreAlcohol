@@ -13,20 +13,20 @@ public class BattleHUD : MonoBehaviour
     public Slider HealthBarPlayer;
     public Slider HealthBarEnemy;
 
-    public void SetEnemyHud(Enemy enemy)
+    public void SetEnemyHud(string enemyName, int MaxHP, int CurrentHP)
     {
         EnemyNameTextMesh = EnemyName.GetComponent<TextMeshProUGUI>();
-        EnemyNameTextMesh.text = enemy.EnemyName;
-        HealthBarEnemy.maxValue = enemy.MaxHP;
-        HealthBarEnemy.value = enemy.CurrentHP;
+        EnemyNameTextMesh.text = enemyName;
+        HealthBarEnemy.maxValue = MaxHP;
+        HealthBarEnemy.value = CurrentHP;
     }
 
-    public void SetPlayerHud(Player player)
+    public void SetPlayerHud(string playerName, int MaxHP, int CurrentHP)
     {
         PlayerNameTextMesh = PlayerName.GetComponent<TextMeshProUGUI>();
-        PlayerNameTextMesh.text = player.PlayerName;
-        HealthBarPlayer.maxValue = player.MaxHP;
-        HealthBarPlayer.value = player.CurrentHP;
+        PlayerNameTextMesh.text = playerName;
+        HealthBarPlayer.maxValue = MaxHP;
+        HealthBarPlayer.value = CurrentHP;
 
     }
     public void SetPlayerHP(int hp)
