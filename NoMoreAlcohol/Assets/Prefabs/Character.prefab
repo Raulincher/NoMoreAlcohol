@@ -161,7 +161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  jump: 5
+  jump: 7
+  battleSystem: {fileID: 0}
   PlayerName: John
   Damage: 3
   MaxHP: 15

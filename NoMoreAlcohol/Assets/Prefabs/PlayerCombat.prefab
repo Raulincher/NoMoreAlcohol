@@ -51,7 +51,7 @@ MonoBehaviour:
   jump: 5
   battleSystem: {fileID: 4372318464198710680, guid: 6253cf7ad6af3e2408c29f7398cd0fc7, type: 3}
   PlayerName: john
-  Damage: 3
+  Damage: 4
   MaxHP: 15
   CurrentHP: 15
   HealthBar: {fileID: 5352859244244277533, guid: 7a594a93cc6b56f4d8bcc1397e304ccf, type: 3}

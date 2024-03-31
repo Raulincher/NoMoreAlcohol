@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+//Script que controla todo lo relacionado con el personaje principal, tanto en combate como fuera de el.
+//Este script esta siendo observado por GameController para así saber cuando hay un evento de pelea.
 public class PlayerController : MonoBehaviour
 {
 
@@ -87,6 +89,17 @@ public class PlayerController : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void heal(int heal)
+    {
+        CurrentHP += heal;
+        if(CurrentHP > MaxHP)
+        {
+            CurrentHP = MaxHP;
+        }
+        HealthBar.SetHealth(CurrentHP);
+
     }
 
 

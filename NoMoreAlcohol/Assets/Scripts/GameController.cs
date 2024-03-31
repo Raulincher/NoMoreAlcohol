@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public enum GameState { FreeRoam, Battle }
 
+//Script que controla los eventos del juego, sigue el modelo observer
 public class GameController : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
@@ -16,6 +17,8 @@ public class GameController : MonoBehaviour
     void Start()
     {
         playerController.OnEncountered += StartBattle;
+        battleSystem.OnBattleOver += EndBattle;
+        battleSystem.Run += Escape;
     }
 
     void StartBattle()
@@ -23,6 +26,22 @@ public class GameController : MonoBehaviour
         state = GameState.Battle;
         battleSystem.gameObject.SetActive(true);
         worldCamera.gameObject.SetActive(false);
+        battleSystem.StartBattle();
+
+    }
+
+    void Escape()
+    {
+        state = GameState.FreeRoam;
+        battleSystem.gameObject.SetActive(false);
+        worldCamera.gameObject.SetActive(true);
+    }
+
+    void EndBattle(bool won)
+    {
+        state = GameState.FreeRoam;
+        battleSystem.gameObject.SetActive(false);
+        worldCamera.gameObject.SetActive(true);
 
     }
 

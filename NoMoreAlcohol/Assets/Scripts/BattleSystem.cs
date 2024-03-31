@@ -4,8 +4,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 
+//Script que controla todo lo relacionado con el combate.
+//Este script esta siendo observado por GameController para así saber cuando hay que terminar la pelea y quien es el ganador.
 public enum BattleState {START, PLAYERTURN, ENEMYTURN, WON, LOST}
 
 public class BattleSystem : MonoBehaviour
@@ -15,24 +18,29 @@ public class BattleSystem : MonoBehaviour
     public Transform EnemyBattleStation;
     public BattleState state;
     Enemy enemyInfo;
+    GameObject enemy, player;
     PlayerController playerInfo;
     public BattleHUD BattleHuds;
 
-    // Start is called before the first frame update
-    void Start()
-    { 
-        StartCoroutine(SetUpBattle());  
+    public event Action<bool> OnBattleOver;
+    public event Action Run;
+
+    public void StartBattle()
+    {
+        StartCoroutine(SetUpBattle());
     }
 
+    //set de la batalla de momento solo hay un enemigo disponible el cual solo hace un ataque
     public IEnumerator SetUpBattle()
     {
         state = BattleState.START;
         Debug.Log("set up");
-        Vector3 spawnPosition = new Vector3(19f, 136f, 0);
-        GameObject Enemy = Instantiate(EnemyPrefab, spawnPosition, Quaternion.identity);
-        enemyInfo = Enemy.GetComponent<Enemy>();
-        GameObject Player = Instantiate(PlayerPrefab);
-        playerInfo = Player.GetComponent<PlayerController>();
+        Vector3 spawnPosition = new Vector3(18f, 136.5f, -1);
+        enemy = Instantiate(EnemyPrefab, spawnPosition, Quaternion.identity);
+        enemyInfo = enemy.GetComponent<Enemy>();
+        player = Instantiate(PlayerPrefab);
+        playerInfo = player.GetComponent<PlayerController>();
+
 
         BattleHuds.SetPlayerHud(playerInfo.PlayerName, playerInfo.MaxHP, playerInfo.CurrentHP);
         BattleHuds.SetEnemyHud(enemyInfo.EnemyName, enemyInfo.MaxHP, enemyInfo.CurrentHP);
@@ -54,7 +62,9 @@ public class BattleSystem : MonoBehaviour
         if (isDead)
         {
             state = BattleState.WON;
-            EndBattle();
+            Destroy(enemy);
+            Destroy(player);
+            OnBattleOver(true);
 
         }
         else
@@ -67,11 +77,20 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PlayerRun()
     {
         yield return new WaitForSeconds(2f);
+        Run();
+        Destroy(enemy);
+        Destroy(player);
     }
 
     IEnumerator PlayerTrick()
     {
+        playerInfo.heal(playerInfo.Damage);
+
+        BattleHuds.SetPlayerHP(playerInfo.CurrentHP);
+
         yield return new WaitForSeconds(2f);
+        state = BattleState.ENEMYTURN;
+        StartCoroutine(EnemyTurn());
     }
     
     IEnumerator EnemyTurn()
@@ -83,17 +102,16 @@ public class BattleSystem : MonoBehaviour
         if (isDead)
         {
             state = BattleState.LOST;
-            EndBattle();
+            Destroy(enemy);
+            Destroy(player);
+            OnBattleOver(false);
+
         }
         else
         {
             state = BattleState.PLAYERTURN;
             PlayerTurn();
         }
-    }
-    void EndBattle()
-    {
-        //if(state == BattleState.WON)
     }
 
     void PlayerTurn()
