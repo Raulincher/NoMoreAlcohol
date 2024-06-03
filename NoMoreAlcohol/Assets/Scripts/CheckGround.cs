@@ -4,21 +4,44 @@ using UnityEngine;
 
 public class CheckGround : MonoBehaviour
 {
-    public bool isGrounded = true;
+    //public bool isGrounded = false;
+    public LayerMask groundLayer; 
+    public float checkDistance; 
+    public Vector2 boxSize;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    public bool isGrounded()
     {
-        if (collision.gameObject.CompareTag("Map"))
+        if(Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, checkDistance, groundLayer))
         {
-            isGrounded = true;
+            return true;
         }
+        else { return false; }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnDrawGizmos()
     {
-        if (collision.gameObject.CompareTag("Map"))
-        {
-            isGrounded = false;
-        }
+        Gizmos.DrawWireCube(transform.position - transform.up * checkDistance, boxSize);
     }
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Map"))
+    //    {
+    //        //Vector3 normal = collision.GetContact(0).normal;
+    //        RaycastHit2D hit = Physics2D.BoxCast(transform.position, GetComponent<Collider2D>().bounds.size, 0f, Vector2.down, checkDistance, groundLayer);
+    //        if (hit.collider != null)
+    //        {
+    //            isGrounded = true;
+    //        }
+    //    }
+    //}
+
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Map"))
+    //    {
+    //        isGrounded = false;
+    //    }
+    //}
 }

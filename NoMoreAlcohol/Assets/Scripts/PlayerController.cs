@@ -41,14 +41,14 @@ public class PlayerController : MonoBehaviour
         if (!battleSystem.activeSelf)
         {
             CheckGround checkGround = GetComponent<CheckGround>();
-            bool check = checkGround.isGrounded;
+            bool check = checkGround.isGrounded();
 
             MovePlayer(check);
 
 
             if (transform.position != previousPosition)
             {
-                CheckForEncounters();
+                //CheckForEncounters();
             }
 
             // Update the previous position to the current position
