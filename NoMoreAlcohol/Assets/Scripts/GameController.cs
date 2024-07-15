@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        playerController.OnEncountered += StartBattle;
+        //playerController.OnEncountered += StartBattle;
         battleSystem.OnBattleOver += EndBattle;
         battleSystem.Run += Escape;
     }
