@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
     public int maxAirJumps = 2;
     PlayerStateList playerStateList;
 
+    [Header("Buffer Settings")]
+    private int jumpBufferCounter = 0;
+    [SerializeField] private int jumpBufferFrames;
+
 
     [Header("Battlesystem")]
     public GameObject battleSystem;
@@ -43,12 +47,11 @@ public class PlayerController : MonoBehaviour
         {
             CheckGround checkGround = GetComponent<CheckGround>();
             bool check = checkGround.isGrounded();
-
-
             GetInputs();
+            resetJumpVaribles(check);
             Move();
+            Flip();
             Jump(check);
-
             //MovePlayer(check);
 
         }
@@ -64,13 +67,57 @@ public class PlayerController : MonoBehaviour
         rb2d.velocity = new Vector2(speed * xAxis, rb2d.velocity.y);
     }
 
+    void Flip()
+    {
+        if(xAxis < 0)
+        {
+            transform.localScale = new Vector2(1, transform.localScale.y);
+        }
+        else if(xAxis > 0)
+        {
+            transform.localScale = new Vector2(-1, transform.localScale.y);
+        }
+    }
+
     private void Jump(bool check)
     {
-        Debug.Log(check);
-        if (Input.GetButtonDown("Jump") && check)
+
+        if (!playerStateList.jumping)
+        {
+            if (jumpBufferCounter > 0 && check)
+            {
+                //playerStateList.jumping = true;
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
+                playerStateList.jumping = true;
+
+            }
+        }
+
+
+
+        if (Input.GetButtonUp("Jump") && rb2d.velocity.y > 0)
         {
             //playerStateList.jumping = true;
-            rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
+            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+            playerStateList.jumping = false;
+        }
+        
+    }
+
+    void resetJumpVaribles(bool check)
+    {
+        if (check)
+        {
+            playerStateList.jumping = false;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            jumpBufferCounter = jumpBufferFrames;
+        }
+        else
+        {
+            jumpBufferCounter--;
         }
     }
 
