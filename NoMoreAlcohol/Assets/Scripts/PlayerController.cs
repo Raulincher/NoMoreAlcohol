@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Cainos.PixelArtPlatformer_VillageProps;
 
 //Script que controla todo lo relacionado con el personaje principal, tanto en combate como fuera de el.
 //Este script esta siendo observado por GameController para así saber cuando hay un evento de pelea.
@@ -12,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private float xAxis;
     [SerializeField] public float speed = 9;
     Rigidbody2D rb2d;
+
 
     [Header("Vertical Movement Settings")]
     public float jump = 3;
@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour
     public int MaxHP;
     public int CurrentHP;
     public HealthBar HealthBar;
+    public event Action EnemyEncounter;
+
+
 
     void Start()
     {
@@ -52,6 +55,7 @@ public class PlayerController : MonoBehaviour
             Move();
             Flip();
             Jump(check);
+            
             //MovePlayer(check);
 
         }
@@ -67,6 +71,13 @@ public class PlayerController : MonoBehaviour
         rb2d.velocity = new Vector2(speed * xAxis, rb2d.velocity.y);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            EnemyEncounter();
+        }
+    }
     void Flip()
     {
         if(xAxis < 0)
@@ -78,6 +89,8 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector2(-1, transform.localScale.y);
         }
     }
+
+ 
 
     private void Jump(bool check)
     {

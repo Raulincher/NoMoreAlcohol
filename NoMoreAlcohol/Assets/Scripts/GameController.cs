@@ -16,9 +16,8 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        //playerController.OnEncountered += StartBattle;
+        playerController.EnemyEncounter += StartBattle;
         battleSystem.OnBattleOver += EndBattle;
-        battleSystem.Run += Escape;
     }
 
     void StartBattle()
@@ -28,13 +27,6 @@ public class GameController : MonoBehaviour
         worldCamera.gameObject.SetActive(false);
         battleSystem.StartBattle();
 
-    }
-
-    void Escape()
-    {
-        state = GameState.FreeRoam;
-        battleSystem.gameObject.SetActive(false);
-        worldCamera.gameObject.SetActive(true);
     }
 
     void EndBattle(bool won)
