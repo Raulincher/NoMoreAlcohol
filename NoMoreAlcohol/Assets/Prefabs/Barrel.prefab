@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6487249669411735259}
   - component: {fileID: 6487249669411735258}
   - component: {fileID: 4768980785970520006}
+  - component: {fileID: -7630200357131697929}
+  - component: {fileID: -8251206849287423667}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Enemy
@@ -111,3 +113,41 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.47969502, y: 0.5766431}
   m_EdgeRadius: 0
+--- !u!114 &-7630200357131697929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6487249669411735253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bc20ebbe4581f548b5735c01b11bd20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyName: Barrel
+  Damage: 3
+  MaxHP: 10
+  CurrentHP: 10
+  HealthBar: {fileID: 4844570410878999525, guid: cdc5fc36f8db8ad4ca3228afebc12132, type: 3}
+--- !u!50 &-8251206849287423667
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6487249669411735253}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

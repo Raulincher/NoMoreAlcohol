@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7893755365633374008}
   - component: {fileID: 7893755365633374009}
   - component: {fileID: 650243201747925779}
+  - component: {fileID: 3208909293905688632}
   m_Layer: 0
   m_Name: Tulipan
   m_TagString: Untagged
@@ -111,3 +112,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32985175, y: 0.5291997}
   m_EdgeRadius: 0
+--- !u!114 &3208909293905688632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7893755365633374014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bc20ebbe4581f548b5735c01b11bd20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyName: Vampire Flower
+  Damage: 3
+  MaxHP: 15
+  CurrentHP: 15
+  HealthBar: {fileID: 4844570410878999525, guid: cdc5fc36f8db8ad4ca3228afebc12132, type: 3}

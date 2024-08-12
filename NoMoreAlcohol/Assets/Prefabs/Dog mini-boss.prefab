@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5579817700639978063}
   - component: {fileID: 5579817700639978062}
   - component: {fileID: 8367003061217851967}
+  - component: {fileID: -551315375364672480}
   m_Layer: 0
   m_Name: Dog mini-boss
   m_TagString: Enemy
@@ -111,3 +112,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1996403, y: 0.72826004}
   m_EdgeRadius: 0
+--- !u!114 &-551315375364672480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5579817700639978061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bc20ebbe4581f548b5735c01b11bd20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyName: Cerberus
+  Damage: 8
+  MaxHP: 25
+  CurrentHP: 25
+  HealthBar: {fileID: 4844570410878999525, guid: cdc5fc36f8db8ad4ca3228afebc12132, type: 3}

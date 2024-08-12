@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 //Script que controla todo lo relacionado con el combate.
@@ -30,18 +31,29 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(SetUpBattle());
     }
 
+    public void HandleCollision(GameObject collidedObject)
+    {
+        if (collidedObject != null)
+        {
+            enemy = collidedObject;
+            enemyInfo = collidedObject.GetComponent<Enemy>();
+        }
+    }
+
     //set de la batalla de momento solo hay un enemigo disponible el cual solo hace un ataque
     public IEnumerator SetUpBattle()
     {
         state = BattleState.START;
-        Debug.Log("set up");
-        Vector3 spawnPosition = new Vector3(18f, 136.5f, -1);
-        enemy = Instantiate(EnemyPrefab, spawnPosition, Quaternion.identity);
-        enemyInfo = enemy.GetComponent<Enemy>();
+
         player = Instantiate(PlayerPrefab);
         playerInfo = player.GetComponent<PlayerController>();
+        Debug.Log("set up");
+        Vector3 spawnPosition = new Vector3(18f, 136.5f, -1);
 
-
+        Debug.Log(enemyInfo.EnemyName);
+        Debug.Log(enemyInfo.MaxHP);
+        Instantiate(enemy, spawnPosition, Quaternion.identity);
+        
         BattleHuds.SetPlayerHud(playerInfo.PlayerName, playerInfo.MaxHP, playerInfo.CurrentHP);
         BattleHuds.SetEnemyHud(enemyInfo.EnemyName, enemyInfo.MaxHP, enemyInfo.CurrentHP);
 

@@ -556,7 +556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 6621697089600155832, guid: 2c7637e5e799a8949bdfab8e0d8c3afc, type: 3}
-  EnemyPrefab: {fileID: 4564556280478420227, guid: 8cec1b5b700238040b379a129f59f2e4, type: 3}
+  EnemyPrefab: {fileID: 3139875125460670850, guid: e08a946ed16c43741a085d90f490d3b4, type: 3}
   EnemyBattleStation: {fileID: 1531341811}
   state: 0
   BattleHuds: {fileID: 19582614}
@@ -761,7 +761,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1000, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 //Script que controla todo lo relacionado con el personaje principal, tanto en combate como fuera de el.
 //Este script esta siendo observado por GameController para así saber cuando hay un evento de pelea.
@@ -26,12 +27,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("Battlesystem")]
     public GameObject battleSystem;
+    public BattleSystem BattleScript;
     public string PlayerName;
     public int Damage;
     public int MaxHP;
     public int CurrentHP;
     public HealthBar HealthBar;
     public event Action EnemyEncounter;
+    public GameObject enemyCollision;
 
 
 
@@ -71,10 +74,14 @@ public class PlayerController : MonoBehaviour
         rb2d.velocity = new Vector2(speed * xAxis, rb2d.velocity.y);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
+            enemyCollision = collision.gameObject;
+            BattleScript = battleSystem.GetComponent<BattleSystem>();
+            BattleScript.HandleCollision(enemyCollision);
+
             EnemyEncounter();
         }
     }
