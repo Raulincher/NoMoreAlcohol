@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5523080629284389475}
   - component: {fileID: 8369200214096148832}
   - component: {fileID: -573341139314155229}
+  - component: {fileID: -3673617465702738894}
   m_Layer: 0
   m_Name: Demonpot
   m_TagString: Enemy
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5523080629284389484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 24.46, y: 3.29, z: 0}
-  m_LocalScale: {x: 4.6778, y: 4.6778, z: 4.6778}
+  m_LocalScale: {x: 4.6778, y: 6, z: 4.6778}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,7 +97,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.008656859, y: -0.3047219}
@@ -125,7 +126,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyName: Demon vessel
-  Damage: 5
+  Damage: 4
   MaxHP: 20
   CurrentHP: 20
   HealthBar: {fileID: 4844570410878999525, guid: cdc5fc36f8db8ad4ca3228afebc12132, type: 3}
+--- !u!50 &-3673617465702738894
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5523080629284389484}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

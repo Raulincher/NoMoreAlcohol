@@ -48,10 +48,39 @@ public class BattleSystem : MonoBehaviour
         player = Instantiate(PlayerPrefab);
         playerInfo = player.GetComponent<PlayerController>();
         Debug.Log("set up");
-        Vector3 spawnPosition = new Vector3(18f, 136.5f, -1);
+        Vector3 spawnPosition = new Vector3(17.8f, 137.3f, 10);
+  
+        enemy.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+
+        if (enemy.name.Contains("lord"))
+        {
+            enemy.transform.localScale = new Vector3(4f, 4f, 4f);
+            spawnPosition = new Vector3(17.8f, 139f, 10);
+        }
+
+        if (enemy.name.Contains("Dog"))
+        {
+            enemy.transform.localScale = new Vector3(3f, 3f, 3f);
+            spawnPosition = new Vector3(18.5f, 137.6f, 10);
+        }
+        if (enemy.name.Contains("pot"))
+        {
+            enemy.transform.localScale = new Vector3(4f, 4f, 4f);
+            spawnPosition = new Vector3(17.8f, 138.5f, 10);
+        }
+        if (enemy.name.Contains("Frog"))
+        {
+            enemy.transform.localScale = new Vector3(3f, 3f, 3f);
+            spawnPosition = new Vector3(17.8f, 138f, 10);
+        }
+
+        Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
+
+        rb.bodyType = RigidbodyType2D.Static;
 
         Debug.Log(enemyInfo.EnemyName);
         Debug.Log(enemyInfo.MaxHP);
+        
         Instantiate(enemy, spawnPosition, Quaternion.identity);
         
         BattleHuds.SetPlayerHud(playerInfo.PlayerName, playerInfo.MaxHP, playerInfo.CurrentHP);

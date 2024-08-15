@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] BattleSystem battleSystem;
     [SerializeField] Camera worldCamera;
+    [SerializeField] GameObject auxCamera; 
 
     GameState state;
 
@@ -25,6 +26,7 @@ public class GameController : MonoBehaviour
         state = GameState.Battle;
         battleSystem.gameObject.SetActive(true);
         worldCamera.gameObject.SetActive(false);
+        auxCamera.SetActive(false);
         battleSystem.StartBattle();
 
     }
@@ -34,6 +36,7 @@ public class GameController : MonoBehaviour
         state = GameState.FreeRoam;
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
+        auxCamera.SetActive(true);
 
     }
 
