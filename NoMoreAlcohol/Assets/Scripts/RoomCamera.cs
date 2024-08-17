@@ -22,9 +22,7 @@ public class RoomCamera : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("map_active") == 0)
         {
-
-            Debug.Log("Map is active.");
-
+    
             Vector3Int cellPosition = grid.WorldToCell(player.transform.position);
             Camera.transform.position = grid.GetCellCenterWorld(cellPosition);
 

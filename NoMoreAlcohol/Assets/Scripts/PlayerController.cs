@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
     public int airJumpCounter = 0;
     public int maxAirJumps = 2;
     PlayerStateList playerStateList;
+    public int jumpCounter = 0;
+    public bool doubleJump = false;
+    public bool doubleJumpUnlocked = false;
+    public float maxFallSpeed = -20f;
 
     [Header("Buffer Settings")]
     private int jumpBufferCounter = 0;
@@ -58,7 +62,11 @@ public class PlayerController : MonoBehaviour
             Move();
             Flip();
             Jump(check);
-            
+
+            if (rb2d.velocity.y < maxFallSpeed)
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, maxFallSpeed);
+            }
             //MovePlayer(check);
 
         }
@@ -97,9 +105,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Jump(bool check)
+    {
+
+        if(check && !Input.GetButton("Jump"))
+        {
+            doubleJump = false;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (check)
+            {
+                // Primer salto
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
+                doubleJump = true; // Permitir un doble salto después de un salto normal
+            }
+            else if (doubleJump && doubleJumpUnlocked)
+            {
+                // Doble salto
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
+                doubleJump = false; // Desactivar el doble salto hasta que se vuelva a tocar el suelo
+            }
+        }
+
+        if (Input.GetButtonUp("Jump") && rb2d.velocity.y > 0f)
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y * 0.5f);
+        }
+    }
  
 
-    private void Jump(bool check)
+    /*private void Jump(bool check)
     {
 
         if (!playerStateList.jumping)
@@ -110,19 +147,30 @@ public class PlayerController : MonoBehaviour
                 rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
                 playerStateList.jumping = true;
 
+
+            }
+        }
+
+        if(playerStateList.jumping && doubleJump)
+        {
+            if (Input.GetButtonDown("Jump") && jumpCounter < 2)
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
+                playerStateList.jumping = true;
+                jumpCounter++;
+
             }
         }
 
 
-
-        if (Input.GetButtonUp("Jump") && rb2d.velocity.y > 0)
+        if (check)
         {
-            //playerStateList.jumping = true;
-            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+            jumpCounter = 0;
+            //rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             playerStateList.jumping = false;
         }
         
-    }
+    }*/
 
     void resetJumpVaribles(bool check)
     {
