@@ -16,27 +16,17 @@ public class interactionManager : MonoBehaviour
         if (xAxis < 0)
         {
             rayDirection = - transform.right;
-            Debug.Log("entro izquierda");
         }
         else if (xAxis > 0)
         {
             rayDirection = transform.right;
-            Debug.Log("entro derecha");
-
         }
-
-        // Dibuja un rayo hacia adelante desde la posición actual
-        Debug.DrawRay(transform.position, rayDirection * interactionRange, Color.red, 0.1f);
-
-        
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("entro en e");
             Interact(rayDirection);
         }
     }
-
     void Interact(Vector2 direction)
     {
         // Usa Physics2D.Raycast para detectar colisiones
@@ -44,17 +34,12 @@ public class interactionManager : MonoBehaviour
 
         if (hit.collider != null)
         {
-            Debug.Log("Objeto detectado");
             interactionBehaviour interactable = hit.collider.GetComponent<interactionBehaviour>();
             if (interactable != null)
             {
-                Debug.Log("Interacting with: " + interactable.gameObject.name);
                 interactable.OnInteract();
             }
         }
-        else
-        {
-            Debug.Log("No interactuable detectado");
-        }
+
     }
 }
