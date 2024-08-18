@@ -9,6 +9,7 @@ TagManager:
   - Ladder
   - Enemy
   - AuxCamera
+  - chest
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - walls
   - furniture
   - platforms
-  - 
+  - interactuables
   - 
   - 
   - 
