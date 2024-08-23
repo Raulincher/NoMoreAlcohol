@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - AuxCamera
   - chest
+  - door
   layers:
   - Default
   - TransparentFX

@@ -41,5 +41,17 @@ public class interactionManager : MonoBehaviour
             }
         }
 
+        Vector2 upwardDirection = transform.up;
+        RaycastHit2D hitAbove = Physics2D.Raycast(transform.position, upwardDirection, interactionRange, interactableLayer);
+
+        if (hitAbove.collider != null)
+        {
+            interactionBehaviour interactable = hitAbove.collider.GetComponent<interactionBehaviour>();
+            if (interactable != null)
+            {
+                interactable.OnInteract();
+            }
+        }
+
     }
 }

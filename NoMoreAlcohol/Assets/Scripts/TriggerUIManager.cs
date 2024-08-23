@@ -23,4 +23,9 @@ public class TriggerUIManager : MonoBehaviour
             interactionUI.HideInteractText();
         }
     }
+
+    public void DestroyTrigger()
+    {
+        Destroy(gameObject);
+    }
 }

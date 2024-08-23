@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class chest : interactionBehaviour
 {
+    public TriggerUIManager triggerUIManager;
     public override void OnInteract()
     {
         string objectName = gameObject.name;
@@ -13,6 +14,7 @@ public class chest : interactionBehaviour
             GameObject character = GameObject.FindGameObjectWithTag("Player");
             PlayerController controller = character.GetComponent<PlayerController>();
             controller.doubleJumpUnlocked = true;
+            triggerUIManager.DestroyTrigger();
             Destroy(gameObject);
         }
     }
