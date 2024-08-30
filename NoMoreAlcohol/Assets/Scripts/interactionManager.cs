@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class interactionManager : MonoBehaviour
+public class InteractionManager : MonoBehaviour
 {
     public float interactionRange = 2f;
     public LayerMask interactableLayer;
@@ -34,7 +34,7 @@ public class interactionManager : MonoBehaviour
 
         if (hit.collider != null)
         {
-            interactionBehaviour interactable = hit.collider.GetComponent<interactionBehaviour>();
+            InteractionBehaviour interactable = hit.collider.GetComponent<InteractionBehaviour>();
             if (interactable != null)
             {
                 interactable.OnInteract();
@@ -46,7 +46,7 @@ public class interactionManager : MonoBehaviour
 
         if (hitAbove.collider != null)
         {
-            interactionBehaviour interactable = hitAbove.collider.GetComponent<interactionBehaviour>();
+            InteractionBehaviour interactable = hitAbove.collider.GetComponent<InteractionBehaviour>();
             if (interactable != null)
             {
                 interactable.OnInteract();

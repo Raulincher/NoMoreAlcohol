@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1847997339562669470}
   - component: {fileID: 1847997339562669471}
   - component: {fileID: 1847997339562669469}
-  - component: {fileID: 7874432680254453242}
   - component: {fileID: 1847997339562669459}
   m_Layer: 0
   m_Name: Character
@@ -153,19 +152,6 @@ MonoBehaviour:
     m_Bits: 0
   checkDistance: 0
   boxSize: {x: 0, y: 0}
---- !u!114 &7874432680254453242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1847997339562669466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c42c18b6b2f0f1c4ca07604c6a9864b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumping: 0
 --- !u!114 &1847997339562669459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,10 +168,16 @@ MonoBehaviour:
   jump: 7
   airJumpCounter: 0
   maxAirJumps: 2
+  jumpCounter: 0
+  doubleJump: 0
+  doubleJumpUnlocked: 0
+  maxFallSpeed: -20
   jumpBufferFrames: 0
   battleSystem: {fileID: 0}
+  BattleScript: {fileID: 0}
   PlayerName: John
   Damage: 3
   MaxHP: 15
   CurrentHP: 15
   HealthBar: {fileID: 5352859244244277533, guid: 7a594a93cc6b56f4d8bcc1397e304ccf, type: 3}
+  enemyCollision: {fileID: 0}

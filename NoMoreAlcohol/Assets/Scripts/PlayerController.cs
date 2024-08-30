@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     public event Action EnemyEncounter;
     public GameObject enemyCollision;
 
-
+    private bool gamePaused;
 
     void Start()
     {
@@ -49,26 +49,42 @@ public class PlayerController : MonoBehaviour
         CurrentHP = MaxHP;
         HealthBar.SetMaxHealth(MaxHP);
     }
+    public void OnPause()
+    {
+        gamePaused = true;
+    }
+
+    // Método que se invoca al reanudar el juego
+    public void OnResume()
+    {
+        gamePaused = false;
+    }
+
 
     // Update is called once per frame
     public void Update()
     {
-        if (!battleSystem.activeSelf)
+        Debug.Log(gamePaused);
+
+        if (gamePaused == false)
         {
-            CheckGround checkGround = GetComponent<CheckGround>();
-            bool check = checkGround.isGrounded();
-            GetInputs();
-            resetJumpVaribles(check);
-            Move();
-            Flip();
-            Jump(check);
-
-            if (rb2d.velocity.y < maxFallSpeed)
+            if (!battleSystem.activeSelf)
             {
-                rb2d.velocity = new Vector2(rb2d.velocity.x, maxFallSpeed);
-            }
-            //MovePlayer(check);
+                CheckGround checkGround = GetComponent<CheckGround>();
+                bool check = checkGround.isGrounded();
+                GetInputs();
+                resetJumpVaribles(check);
+                Move();
+                Flip();
+                Jump(check);
 
+                if (rb2d.velocity.y < maxFallSpeed)
+                {
+                    rb2d.velocity = new Vector2(rb2d.velocity.x, maxFallSpeed);
+                }
+                //MovePlayer(check);
+
+            }
         }
     }
 
@@ -134,43 +150,7 @@ public class PlayerController : MonoBehaviour
             rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y * 0.5f);
         }
     }
- 
 
-    /*private void Jump(bool check)
-    {
-
-        if (!playerStateList.jumping)
-        {
-            if (jumpBufferCounter > 0 && check)
-            {
-                //playerStateList.jumping = true;
-                rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
-                playerStateList.jumping = true;
-
-
-            }
-        }
-
-        if(playerStateList.jumping && doubleJump)
-        {
-            if (Input.GetButtonDown("Jump") && jumpCounter < 2)
-            {
-                rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
-                playerStateList.jumping = true;
-                jumpCounter++;
-
-            }
-        }
-
-
-        if (check)
-        {
-            jumpCounter = 0;
-            //rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
-            playerStateList.jumping = false;
-        }
-        
-    }*/
 
     void resetJumpVaribles(bool check)
     {
@@ -188,32 +168,6 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter--;
         }
     }
-
-    /*void MovePlayer(bool check)
-    {
-        // Detect player input for movement
-        float horizontalInput = Input.GetAxis("Horizontal");
-        rb2d.velocity = new Vector2(horizontalInput, rb2d.velocity.y);
-        // Check if the player is jumping
-        if (check)
-        {
-            airJumpCounter = 0;
-            playerStateList.jumping = false;
-        }
-
-        if (Input.GetButtonDown("Jump") && check)
-        {
-            playerStateList.jumping = true;
-            rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
-        }
-    }*/
-
-    /*IEnumerator CheckEncounter()
-    {
-        CheckForEncounters();
-        yield return new WaitForSeconds(10);
-        StartCoroutine(CheckEncounter());
-    }*/
 
     public bool ReceiveDamage(int Damage)
     {
