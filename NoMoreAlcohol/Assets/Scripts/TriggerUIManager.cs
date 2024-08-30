@@ -11,7 +11,8 @@ public class TriggerUIManager : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            interactionUI.ShowInteractText();
+            string name = gameObject.name;
+            interactionUI.ShowInteractText(name);
         }
     }
 
@@ -19,7 +20,6 @@ public class TriggerUIManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("salgo collider de cofre");
             interactionUI.HideInteractText();
         }
     }

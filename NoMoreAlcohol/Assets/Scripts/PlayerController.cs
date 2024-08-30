@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        Debug.Log(gamePaused);
 
         if (gamePaused == false)
         {
@@ -82,7 +81,6 @@ public class PlayerController : MonoBehaviour
                 {
                     rb2d.velocity = new Vector2(rb2d.velocity.x, maxFallSpeed);
                 }
-                //MovePlayer(check);
 
             }
         }
