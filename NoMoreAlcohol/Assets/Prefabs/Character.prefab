@@ -173,11 +173,12 @@ MonoBehaviour:
   doubleJumpUnlocked: 0
   maxFallSpeed: -20
   jumpBufferFrames: 0
-  battleSystem: {fileID: 0}
+  battleSystem: {fileID: 4372318464198710680, guid: 6253cf7ad6af3e2408c29f7398cd0fc7, type: 3}
   BattleScript: {fileID: 0}
-  PlayerName: John
-  Damage: 3
-  MaxHP: 15
-  CurrentHP: 15
-  HealthBar: {fileID: 5352859244244277533, guid: 7a594a93cc6b56f4d8bcc1397e304ccf, type: 3}
+  playerName: 
+  damage: 0
+  maxHP: 0
+  currentHP: 0
+  healthBar: {fileID: 0}
   enemyCollision: {fileID: 0}
+  statsMultiplier: 1

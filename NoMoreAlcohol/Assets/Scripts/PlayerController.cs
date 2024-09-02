@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 //Script que controla todo lo relacionado con el personaje principal, tanto en combate como fuera de el.
 //Este script esta siendo observado por GameController para así saber cuando hay un evento de pelea.
@@ -32,13 +33,21 @@ public class PlayerController : MonoBehaviour
     [Header("Battlesystem")]
     public GameObject battleSystem;
     public BattleSystem BattleScript;
-    public string PlayerName;
-    public int Damage;
-    public int MaxHP;
-    public int CurrentHP;
-    public HealthBar HealthBar;
-    public event Action EnemyEncounter;
+    public string playerName;
+    public float damage;
+    public float maxHP;
+    public float currentHP;
+    public HealthBar healthBar;
+    public event Action enemyEncounter;
     public GameObject enemyCollision;
+    public float statsMultiplier = 1;
+
+    private float healCooldown = 2f;
+    public HealTextFollow healTextFollow;
+    private int currentHealCount = 0;
+    private int maxHeals = 3;
+    private float lastHealTime = 0f;
+
 
     private bool gamePaused;
 
@@ -46,9 +55,17 @@ public class PlayerController : MonoBehaviour
     {
         playerStateList = GetComponent<PlayerStateList>();
         rb2d = GetComponent<Rigidbody2D>();
-        CurrentHP = MaxHP;
-        HealthBar.SetMaxHealth(MaxHP);
+        string savedName = PlayerPrefs.GetString("UserInput", "");
+        if (savedName.Equals(""))
+        {
+            savedName = "John";
+        }
+        playerName = savedName;
+        currentHP = maxHP;
+        healthBar.SetMaxHealth(maxHP);
     }
+
+    // Método que se invoca al pausar el juego
     public void OnPause()
     {
         gamePaused = true;
@@ -61,10 +78,8 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    // Update is called once per frame
     public void Update()
     {
-
         if (gamePaused == false)
         {
             if (!battleSystem.activeSelf)
@@ -76,6 +91,10 @@ public class PlayerController : MonoBehaviour
                 Move();
                 Flip();
                 Jump(check);
+                if (Input.GetKeyDown(KeyCode.H) && currentHealCount < maxHeals && Time.time > lastHealTime + healCooldown)
+                {
+                    HealCharacter();
+                }
 
                 if (rb2d.velocity.y < maxFallSpeed)
                 {
@@ -86,9 +105,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void HealCharacter()
+    {
+        lastHealTime = Time.time;
+
+        Debug.Log("curo");
+        currentHealCount++;
+
+        currentHP = maxHP;
+        healTextFollow.HealCharacter();
+
+    }
+
     void GetInputs()
     {
         xAxis = Input.GetAxisRaw("Horizontal");
+    }
+
+    public void levelUpCharacter()
+    {
+        statsMultiplier = statsMultiplier + 0.1f;
+        damage = 5 * statsMultiplier;
+        maxHP = 15 * statsMultiplier;
     }
 
     private void Move()
@@ -104,7 +142,7 @@ public class PlayerController : MonoBehaviour
             BattleScript = battleSystem.GetComponent<BattleSystem>();
             BattleScript.HandleCollision(enemyCollision);
 
-            EnemyEncounter();
+            enemyEncounter();
         }
     }
     void Flip()
@@ -167,11 +205,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool ReceiveDamage(int Damage)
+    public bool ReceiveDamage(float damage)
     {
-        CurrentHP -= Damage;
-        HealthBar.SetHealth(CurrentHP);
-        if (CurrentHP <= 0)
+        currentHP -= damage;
+        healthBar.SetHealth(currentHP);
+        if (currentHP <= 0)
         {
             return true;
         }
@@ -181,14 +219,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void heal(int heal)
+    public void heal(float heal)
     {
-        CurrentHP += heal;
-        if(CurrentHP > MaxHP)
+        currentHP += heal;
+        if(currentHP > maxHP)
         {
-            CurrentHP = MaxHP;
+            currentHP = maxHP;
         }
-        HealthBar.SetHealth(CurrentHP);
+        healthBar.SetHealth(currentHP);
 
     }
 

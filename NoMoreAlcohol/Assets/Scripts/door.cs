@@ -5,6 +5,8 @@ using UnityEngine;
 public class Door : InteractionBehaviour
 {
     public TriggerUIManager triggerUIManager;
+    public InteractionUI interactionUI;
+
     public override void OnInteract()
     {
         GameObject character = GameObject.FindGameObjectWithTag("Player");
@@ -13,26 +15,27 @@ public class Door : InteractionBehaviour
         string objectName = gameObject.name;
         if (objectName.Contains("secretDoor1") && inventory.keyToBossKey == true)
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
+            triggerUIManager.DestroyTrigger();
+            interactionUI.bossKeyRoomMessageMethod();
         }
         else if (objectName.Contains("doorToBoss") && inventory.BossKey == true)
         {
-            gameObject.SetActive(false);
-
+            Destroy(gameObject);
+            triggerUIManager.DestroyTrigger();
+            interactionUI.bossRoomMessageMethod();
         }
         else if (objectName.Contains("doorToSecretBoss") && inventory.secretBossKey == true)
         {
-            gameObject.SetActive(false);
-
+            Destroy(gameObject);
+            triggerUIManager.DestroyTrigger();
+            interactionUI.SecretBossMessageMethod();
         }
         else if (objectName.Contains("secretBossKeyRoom") && inventory.keyToSecretBossKey == true)
         {
-            gameObject.SetActive(false);
-
-        }
-        else
-        {
-            Debug.Log("you need the key");
+            Destroy(gameObject);
+            triggerUIManager.DestroyTrigger();
+            interactionUI.DoorMessageSecretBossKeyRoomMethod();
         }
     }
 }

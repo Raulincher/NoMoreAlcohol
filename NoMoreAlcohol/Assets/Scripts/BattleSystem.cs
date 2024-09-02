@@ -6,25 +6,32 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using static UnityEngine.EventSystems.EventTrigger;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 
 //Script que controla todo lo relacionado con el combate.
 //Este script esta siendo observado por GameController para así saber cuando hay que terminar la pelea y quien es el ganador.
-public enum BattleState {START, PLAYERTURN, ENEMYTURN, WON, LOST}
+public enum BattleState {START, PLAYERTURN, PLAYERTRICK, PLAYERATTACK, ENEMYTURN, WON, LOST}
 
 public class BattleSystem : MonoBehaviour
 {
-    public GameObject PlayerPrefab;
+
+    [Header("Player")]
+    public GameObject player;
+
+    [Header("Enemy")]
     public GameObject EnemyPrefab;
     public Transform EnemyBattleStation;
-    public BattleState state;
     Enemy enemyInfo;
-    GameObject enemy, player;
+    GameObject enemy;
     PlayerController playerInfo;
-    public BattleHUD BattleHuds;
 
+
+    [Header("Battle")]
+    public BattleHUD battleHuds;
+    public BattleState state;
     public event Action<bool> OnBattleOver;
-    public event Action Run;
 
     public void StartBattle()
     {
@@ -45,9 +52,11 @@ public class BattleSystem : MonoBehaviour
     {
         state = BattleState.START;
 
-        player = Instantiate(PlayerPrefab);
+        player = GameObject.FindGameObjectWithTag("Player");
+
+
         playerInfo = player.GetComponent<PlayerController>();
-        Debug.Log("set up");
+        
         Vector3 spawnPosition = new Vector3(17.8f, 137.3f, 10);
   
         enemy.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
@@ -57,7 +66,11 @@ public class BattleSystem : MonoBehaviour
             enemy.transform.localScale = new Vector3(4f, 4f, 4f);
             spawnPosition = new Vector3(17.8f, 139f, 10);
         }
-
+        if (enemy.name.Contains("tp"))
+        {
+            enemy.transform.localScale = new Vector3(5.15f, 5f, 5f);
+            spawnPosition = new Vector3(18.05f, 138.81f, 10);
+        }
         if (enemy.name.Contains("Dog"))
         {
             enemy.transform.localScale = new Vector3(3f, 3f, 3f);
@@ -71,41 +84,76 @@ public class BattleSystem : MonoBehaviour
         if (enemy.name.Contains("Frog"))
         {
             enemy.transform.localScale = new Vector3(3f, 3f, 3f);
-            spawnPosition = new Vector3(17.8f, 138f, 10);
+            spawnPosition = new Vector3(17.8f, 137.7f, 10);
+        }
+        if (enemy.name.Contains("calabaza"))
+        {
+            spawnPosition = new Vector3(17.87f, 137f, 10);
         }
 
         Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
 
         rb.bodyType = RigidbodyType2D.Static;
-
-        Debug.Log(enemyInfo.EnemyName);
-        Debug.Log(enemyInfo.MaxHP);
         
         Instantiate(enemy, spawnPosition, Quaternion.identity);
-        
-        BattleHuds.SetPlayerHud(playerInfo.PlayerName, playerInfo.MaxHP, playerInfo.CurrentHP);
-        BattleHuds.SetEnemyHud(enemyInfo.EnemyName, enemyInfo.MaxHP, enemyInfo.CurrentHP);
 
-        yield return new WaitForSeconds(2f);
+        battleHuds.SetPlayerHud(playerInfo.playerName, playerInfo.maxHP, playerInfo.currentHP);
+        battleHuds.SetEnemyHud(enemyInfo.enemyName, enemyInfo.maxHP, enemyInfo.currentHP);
+        battleHuds.EnemyTurnOff();
+        battleHuds.PlayerTurnOff();
+        battleHuds.PlayerAttackOff();
+        battleHuds.PlayerTrickOff();
+        battleHuds.EnemyActionOff();
+
+        yield return new WaitForSeconds(0.5f);
         state = BattleState.PLAYERTURN;
         PlayerTurn();
     }
 
     IEnumerator PlayerAttack()
     {
-        Debug.Log("ataque");
-        bool isDead = enemyInfo.ReceiveDamage(playerInfo.Damage);
+        battleHuds.PlayerTurnOff();
+        battleHuds.PlayerAttackOn();
+        battleHuds.PlayerAttack(playerInfo.playerName, playerInfo.damage);
+        state = BattleState.PLAYERATTACK;
 
-        BattleHuds.SetEnemyHP(enemyInfo.CurrentHP);
 
-        yield return new WaitForSeconds(2f);
+        bool isDead = enemyInfo.ReceiveDamage(playerInfo.damage);
+
+        battleHuds.SetEnemyHP(enemyInfo.currentHP);
+        
+        yield return new WaitForSeconds(3f);
 
         if (isDead)
         {
             state = BattleState.WON;
-            Destroy(enemy);
-            Destroy(player);
-            OnBattleOver(true);
+            if (enemy.name.Contains("tp"))
+            {
+                Destroy(enemy);
+                CloneErase();
+                OnBattleOver(true);
+                SceneManager.LoadScene("Ending1");
+
+
+            }
+            else if (enemy.name.Contains("lord"))
+            {
+                Destroy(enemy);
+                CloneErase();
+                OnBattleOver(true);
+                SceneManager.LoadScene("Ending2");
+
+            }
+            else
+            {
+                Destroy(enemy);
+                CloneErase();
+                battleHuds.PlayerLevelUp();
+                yield return new WaitForSeconds(3f);
+                playerInfo.levelUpCharacter();
+                OnBattleOver(true);
+            }
+
 
         }
         else
@@ -115,37 +163,105 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    IEnumerator PlayerRun()
-    {
-        yield return new WaitForSeconds(2f);
-        Run();
-        Destroy(enemy);
-        Destroy(player);
-    }
 
     IEnumerator PlayerTrick()
     {
-        playerInfo.heal(playerInfo.Damage);
+        battleHuds.PlayerTurnOff();
+        battleHuds.PlayerTrickOn();
+        battleHuds.PlayerTrick(playerInfo.playerName, playerInfo.damage);
+        state = BattleState.PLAYERTRICK;
+        playerInfo.heal(playerInfo.damage);
 
-        BattleHuds.SetPlayerHP(playerInfo.CurrentHP);
+        battleHuds.SetPlayerHP(playerInfo.currentHP);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
     }
     
     IEnumerator EnemyTurn()
     {
-        Debug.Log("turno enemigo");
-        yield return new WaitForSeconds(1f);
-        bool isDead = playerInfo.ReceiveDamage(enemyInfo.Damage);
-        BattleHuds.SetPlayerHP(playerInfo.CurrentHP);
+        battleHuds.PlayerTrickOff();
+        battleHuds.PlayerAttackOff();
+        battleHuds.EnemyTurnOn();
+        battleHuds.EnemyTurn(enemyInfo.enemyName);
+        yield return new WaitForSeconds(2f);
+        battleHuds.EnemyTurnOff();
+        battleHuds.EnemyActionOn();
+        int behaviour = UnityEngine.Random.Range(0, 100);
+        bool isDead = false;
+        int abilityFlag = 0;
+        if (enemyInfo.enemyName.Equals("Nightmare Puppeter"))
+        {
+            if (behaviour <= 10)
+            {
+                enemyInfo.Ability2();
+                isDead = playerInfo.ReceiveDamage(enemyInfo.damage);
+                battleHuds.SetPlayerHP(playerInfo.currentHP);
+                enemyInfo.damage = enemyInfo.damage / 2f;
+                abilityFlag = 0;
+            }
+            else if (behaviour > 10 && behaviour <= 40)
+            {
+                enemyInfo.Ability();
+                abilityFlag = 2;
+            }
+            else
+            {
+                abilityFlag = 1;
+                isDead = playerInfo.ReceiveDamage(enemyInfo.damage);
+                battleHuds.SetPlayerHP(playerInfo.currentHP);
+            }
+        }
+        else if(enemyInfo.enemyName.Equals("Demon Lord"))
+        {
+            if (behaviour <= 20)
+            {
+
+                abilityFlag = 2;
+                enemyInfo.Ability();
+            }
+            else if (behaviour > 20 && behaviour <= 50)
+            {
+                abilityFlag = 0;
+                enemyInfo.Ability2();
+            }
+            else
+            {
+                abilityFlag = 1;
+                isDead = playerInfo.ReceiveDamage(enemyInfo.damage);
+                battleHuds.SetPlayerHP(playerInfo.currentHP);
+            }
+        }
+        else
+        {
+            if (behaviour <= 40)
+            {
+                abilityFlag = 0;
+                Debug.Log("entro cura");
+                Debug.Log(abilityFlag);
+                enemyInfo.Ability();
+            }
+            else
+            {
+                abilityFlag = 1;
+                isDead = playerInfo.ReceiveDamage(enemyInfo.damage);
+                battleHuds.SetPlayerHP(playerInfo.currentHP);
+            }
+        }
+
+        battleHuds.EnemyAction(enemyInfo.enemyName, enemyInfo.damage, abilityFlag);
+
+
+        yield return new WaitForSeconds(4f);
+
         if (isDead)
         {
             state = BattleState.LOST;
             Destroy(enemy);
-            Destroy(player);
-            OnBattleOver(false);
+            OnBattleOver(true);
+            SceneManager.LoadScene("Ending3");
+
 
         }
         else
@@ -157,19 +273,22 @@ public class BattleSystem : MonoBehaviour
 
     void PlayerTurn()
     {
-        Debug.Log("mi turno");
+        battleHuds.EnemyActionOff();
+        battleHuds.PlayerTurnOn();
+        battleHuds.PlayerTurn(playerInfo.playerName);
+
     }
 
 
     public void OnAttackButton()
     {
-        Debug.Log("toco boton atk");
         if (state != BattleState.PLAYERTURN)
         {
             return;
         }
 
         StartCoroutine(PlayerAttack());
+        DeselectButton();
     }
 
     public void OnTrickButton()
@@ -180,16 +299,26 @@ public class BattleSystem : MonoBehaviour
         }
 
         StartCoroutine(PlayerTrick());
+        DeselectButton();
     }
 
-    public void OnRunButton()
+    private void DeselectButton()
     {
-        if (state != BattleState.PLAYERTURN)
-        {
-            return;
-        }
+        EventSystem.current.SetSelectedGameObject(null);
+    }
 
-        StartCoroutine(PlayerRun());
+
+    void CloneErase()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemies)
+        {
+            if (enemy.name.Contains("(Clone)"))
+            {
+                Destroy(enemy);
+            }
+        }
     }
 
 }

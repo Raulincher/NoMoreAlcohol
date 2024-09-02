@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class TriggerUIManager : MonoBehaviour
@@ -26,6 +27,6 @@ public class TriggerUIManager : MonoBehaviour
 
     public void DestroyTrigger()
     {
-        Destroy(gameObject);
+        Destroy(this.gameObject);
     }
 }

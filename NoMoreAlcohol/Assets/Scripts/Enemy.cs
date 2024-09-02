@@ -5,27 +5,27 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-    public string EnemyName;
-    public int Damage;
+    public string enemyName;
+    public float damage;
 
-    public int MaxHP;
-    public int CurrentHP;
+    public float maxHP;
+    public float currentHP;
 
-    public HealthBar HealthBar;
+    public HealthBar healthBar;
 
     private void Start()
     {
-        CurrentHP = MaxHP;
-        HealthBar.SetMaxHealth(MaxHP);
+        currentHP = maxHP;
+        healthBar.SetMaxHealth(maxHP);
     }
 
 
-    public bool ReceiveDamage(int Damage)
+    public bool ReceiveDamage(float damage)
     {
-        CurrentHP -= Damage;
-        HealthBar.SetHealth(CurrentHP);
+        currentHP -= damage;
+        healthBar.SetHealth(currentHP);
 
-        if(CurrentHP <= 0)
+        if(currentHP <= 0)
         {
             return true;
         }
@@ -33,7 +33,8 @@ public class Enemy : MonoBehaviour
         {
             return false;
         }
-
     }
 
+    public virtual void Ability() { }
+    public virtual void Ability2() { }
 }

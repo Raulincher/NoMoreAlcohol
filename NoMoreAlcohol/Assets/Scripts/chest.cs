@@ -6,6 +6,7 @@ using UnityEngine;
 public class Chest : InteractionBehaviour
 {
     public TriggerUIManager triggerUIManager;
+    public InteractionUI interactionUI;
     public override void OnInteract()
     {
         GameObject character = GameObject.FindGameObjectWithTag("Player");
@@ -17,30 +18,41 @@ public class Chest : InteractionBehaviour
         {
             controller.doubleJumpUnlocked = true;
             triggerUIManager.DestroyTrigger();
-            Destroy(gameObject);
+            interactionUI.DoubleJumpChestMessageMethod();
+            gameObject.SetActive(false);
+
         }
         else if (objectName.Equals("KeyToSecretBoss"))
         {
             inventory.secretBossKey = true;
-            Debug.Log("entro secret");
+            triggerUIManager.DestroyTrigger();
+            Destroy(gameObject);
+            interactionUI.SecretBossKeyMessageMethod();
         }
         else if (objectName.Equals("FinalBossKey"))
         {
             inventory.BossKey = true;
-            Debug.Log("entro boss");
+            triggerUIManager.DestroyTrigger();
+            Destroy(gameObject);
+            interactionUI.BossKeyChestMessageMethod();
 
         }
         else if (objectName.Equals("secretRoom1Key"))
         {
             inventory.keyToBossKey = true;
-            Debug.Log("entro room boss");
-
+            triggerUIManager.DestroyTrigger();
+            Destroy(gameObject);
+            interactionUI.bossKeyRoomChestMessageMethod();
         }
         else if (objectName.Equals("keyToSecretBossKeyRoom"))
         {
             inventory.keyToSecretBossKey = true;
-            Debug.Log("entro room secret");
-
+            triggerUIManager.DestroyTrigger();
+            Destroy(gameObject);
+            interactionUI.SecretBossKeyRoomChestMessageMethod();
         }
     }
+
+
+
 }

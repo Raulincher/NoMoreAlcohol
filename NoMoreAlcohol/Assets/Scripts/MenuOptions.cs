@@ -5,15 +5,37 @@ using UnityEngine.SceneManagement;
 
 public class MenuOptions : MonoBehaviour
 {
+    public AudioSource audioSource;
+    private IEnumerator PlaySoundAndExecute(System.Action action)
+    {
+        audioSource.Play();
+
+        while (audioSource.isPlaying)
+        {
+            yield return null;
+        }
+
+        action?.Invoke();
+    }
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("Taberna");
+        StartCoroutine(PlaySoundAndExecute(() => SceneManager.LoadScene("Taberna")));
     }
 
     public void CharacterCreation()
     {
-        SceneManager.LoadScene("CharacterName");
+        StartCoroutine(PlaySoundAndExecute(() => SceneManager.LoadScene("CharacterName")));
+    }
+
+    public void Intro()
+    {
+        StartCoroutine(PlaySoundAndExecute(() => SceneManager.LoadScene("Intro")));
+    }
+
+    public void QuitGame()
+    {
+        StartCoroutine(PlaySoundAndExecute(Application.Quit));
     }
 
 }
