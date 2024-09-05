@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InteractionUI : MonoBehaviour
 {
+
+    //declaration of our variables
     public GameObject bossRoom;
     public GameObject SecretBossKeyRoom; 
     public GameObject SecretBossKeyChest; 
@@ -26,6 +28,8 @@ public class InteractionUI : MonoBehaviour
 
     void Start()
     {
+
+        //setting our variables to false
         bossRoom.SetActive(false);
         SecretBossKeyRoom.SetActive(false);
         SecretBossKeyChest.SetActive(false);
@@ -46,104 +50,200 @@ public class InteractionUI : MonoBehaviour
         bossKeyRoomChestMessage.SetActive(false);
     }
 
+    /**
+     * Method a message showned next to a interactable
+     *
+     * @param none
+     */
     public void bossRoomMessageMethod()
     {
         bossRoomMessage.SetActive(true);
         Invoke("bossRoomMessageMethodOff", visibleTime);
     }
+    /**
+     * Method to set the message off (above one)
+     *
+     * @param none
+     */
     public void bossRoomMessageMethodOff()
     {
         bossRoomMessage.SetActive(false);
     }
 
+    /**
+     * Method a message showned next to a interactable
+     *
+     * @param none
+     */
     public void DoorMessageSecretBossKeyRoomMethod()
     {
         DoorMessageSecretBossKeyRoom.SetActive(true);
         Invoke("DoorMessageSecretBossKeyRoomMethodOff", visibleTime);
     }
-
+    /**
+     * Method to set the message off (above one)
+     *
+     * @param none
+     */
     public void DoorMessageSecretBossKeyRoomMethodOff()
     {
         DoorMessageSecretBossKeyRoom.SetActive(false);
     }
+
+    /**
+     * Method a message showned next to a interactable
+     *
+     * @param none
+     */
     public void SecretBossKeyMessageMethod()
     {
         SecretBossKeyMessage.SetActive(true);
         Invoke("SecretBossKeyMessageMethodOff", visibleTime);
     }
+    /**
+     * Method to set the message off (above one)
+     *
+     * @param none
+     */
     public void SecretBossKeyMessageMethodOff()
     {
         SecretBossKeyMessage.SetActive(false);
     }
+
+    /**
+     * Method a message showned next to a interactable
+     *
+     * @param none
+     */
     public void SecretBossMessageMethod()
     {
         SecretBossMessage.SetActive(true);
         Invoke("SecretBossMessageMethodOff", visibleTime);
 
     }
+
+    /**
+     * Method to set the message off (above one)
+     *
+     * @param none
+     */
     public void SecretBossMessageMethodOff()
     {
         SecretBossMessage.SetActive(false);
     }
 
+    /**
+     * Method a message showned next to a interactable
+     *
+     * @param none
+     */
     public void DoubleJumpChestMessageMethod()
     {
         DoubleJumpChestMessage.SetActive(true);
         Invoke("DoubleJumpChestMessageMethodOff", visibleTime);
 
     }
+    /**
+     * Method to set the message off (above one)
+     *
+     * @param none
+     */
     public void DoubleJumpChestMessageMethodOff()
     {
         DoubleJumpChestMessage.SetActive(false);
     }
 
+    /**
+     * Method a message showned next to a interactable
+     *
+     * @param none
+     */
     public void BossKeyChestMessageMethod()
     {
         bossKeyChestMessage.SetActive(true);
         Invoke("BossKeyChestMessageMethodOff", visibleTime);
     }
 
+    /**
+     * Method to set the message off (above one)
+     *
+     * @param none
+     */
     public void BossKeyChestMessageMethodOff()
     {
         bossKeyChestMessage.SetActive(false);
     }
 
+    /**
+     * Method a message showned next to a interactable
+     *
+     * @param none
+     */
     public void bossKeyRoomMessageMethod()
     {
         bossKeyRoomMessage.SetActive(true);
         Invoke("bossKeyRoomMessageMethodOff", visibleTime);
     }
+
+    /**
+     * Method to set the message off (above one)
+     *
+     * @param none
+     */
     public void bossKeyRoomMessageMethodOff()
     {
         bossKeyRoomMessage.SetActive(false);
     }
 
+    /**
+     * Method a message showned next to a interactable
+     *
+     * @param none
+     */
     public void SecretBossKeyRoomChestMessageMethod()
     {
         SecretBossKeyRoomChestMessage.SetActive(true);
         Invoke("SecretBossKeyRoomChestMessageMethodOff", visibleTime);
     }
-
+    /**
+     * Method to set the message off (above one)
+     *
+     * @param none
+     */
     public void SecretBossKeyRoomChestMessageMethodOff()
     {
         SecretBossKeyRoomChestMessage.SetActive(false);
     }
+
+    /**
+     * Method a message showned next to a interactable
+     *
+     * @param none
+     */
     public void bossKeyRoomChestMessageMethod()
     {
         bossKeyRoomChestMessage.SetActive(true);
         Invoke("bossKeyRoomChestMessageMethodOff", visibleTime);
     }
-
+    /**
+     * Method to set the message off (above one)
+     *
+     * @param none
+     */
     public void bossKeyRoomChestMessageMethodOff()
     {
         bossKeyRoomChestMessage.SetActive(false);
     }
 
-
+    /**
+     * Method to show a message depending on the trigger that is active
+     *
+     * @param name   //string that pass the name of the trigger to know which text we need to activate
+     */
 
     public void ShowInteractText(string name)
     {
-
+        //switch that let us decide which trigger was activated
         switch (name)
         {
             case "DoorToBoss":
@@ -188,6 +288,7 @@ public class InteractionUI : MonoBehaviour
         
     }
 
+    //we call this function to hide all the text when any trigger is active
     public void HideInteractText()
     {
         bossRoom.SetActive(false);

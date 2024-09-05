@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+////Script that controls the camera movement (old one)
+//this movement is not used now but the ifdea of it was use it to make the camera follow the character within the map
+//the type of camera that it is used now is the "room" type one.
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;

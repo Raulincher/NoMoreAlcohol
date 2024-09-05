@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//deprecated script that let you climb when there is a ladder. This existed because the jump at first didn't exists
 public class LadderBehaviour : MonoBehaviour
 {
     private float vertical;

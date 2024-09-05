@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+//not used script that used a tp logic to travel between points
 public class Portal: MonoBehaviour
 {
     public string tagToCheck;
